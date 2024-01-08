@@ -6,14 +6,45 @@ MATRIX_TYPE_TAIL = 't'
 MATRIX_TYPE_HEAD = 'h'
 MATRIX_TYPE_FOOD = 'f'
 
-$state = {
-  segments: [
-    {x: 1, y: 1}
-  ],
-  food: {x: 5, y: 5}
-}
+# $state = {
+#   segments: [
+#     {x: 1, y: 1}
+#   ],
+#   food: {x: 5, y: 5}
+# }
 
-def state_to_matrix(state)
+def state_find_empty_segments(state)
+  matrix = state_to_matrix(state)
+  empty_segments = []
+  MATRIX_SIZE.times do |y|        
+    MATRIX_SIZE.times do |x|
+      # p ({x:, y:})
+      # matrix[y][x] = '_'
+      if matrix[y][x] == '_'
+        empty_segments << {y:, x:}
+      end
+    end
+  end
+  return empty_segments
+end
+
+def generate_random_food_position(state)
+  empty = state_find_empty_segments(state)
+  return empty.sample
+end
+
+def generate_state
+  state = {
+    segments: [
+      {x: 1, y: 1}
+    ],
+    food: nil
+  }
+  state[:food] = generate_random_food_position(state)
+  return state
+end
+
+def generate_empty_matrix
   matrix = []
   MATRIX_SIZE.times do |y|
     matrix[y] = []
@@ -22,7 +53,12 @@ def state_to_matrix(state)
       matrix[y][x] = '_'
     end
   end
-  if !state[:food].nil?
+  return matrix
+end
+
+def state_to_matrix(state)
+  matrix = generate_empty_matrix()
+  if !state.key?(:food) || !state[:food].nil?
     matrix[state[:food][:y]][state[:food][:x]] = MATRIX_TYPE_FOOD
   end
   state[:segments].each_with_index do |segment, i|
@@ -78,4 +114,10 @@ def state_snake_right(state)
   end
 end
 
-print state_to_matrix($state).to_yaml
+def state_is_eating(state)
+  return false if state[:food].nil?
+
+  return state[:food] == state[:segments][0]
+end
+
+# print state_to_matrix($state).to_yaml

@@ -2,6 +2,9 @@ require "gtk3"
 require "json"
 require "./state.rb"
 
+$state = generate_state()
+# raise $state.inspect
+
 window = Gtk::Window.new("First example")
 window.set_size_request(400, 400)
 window.set_border_width(10)
@@ -20,15 +23,18 @@ window.add($view1)
 window.signal_connect("key-press-event") { |_widget, event|
   # p event.inspect
   k = Gdk::Keyval.to_name(event.keyval)
-    if k == 'Up'
-      state_snake_up($state)
-    elsif k == 'Down'
-      state_snake_down($state)
-    elsif k == 'Left'
-      state_snake_left($state)
-    elsif k == 'Right'
-      state_snake_right($state)
-    end
+  if k == 'Up'
+    state_snake_up($state)
+  elsif k == 'Down'
+    state_snake_down($state)
+  elsif k == 'Left'
+    state_snake_left($state)
+  elsif k == 'Right'
+    state_snake_right($state)
+  end
+  if state_is_eating($state)
+    $state[:food] = generate_random_food_position($state)
+  end
   replace_text(
     # event.inspect    
     Gdk::Keyval.to_name(event.keyval) +
