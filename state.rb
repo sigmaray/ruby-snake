@@ -12,7 +12,8 @@ MATRIX_TYPE_HEAD = '♥'
 # MATRIX_TYPE_FOOD = 'f'
 MATRIX_TYPE_FOOD = '@'
 
-MATRIX_TYPE_EMPTY = '▒'
+MATRIX_TYPE_EMPTY = '█'
+
 
 
 # $state = {
@@ -84,7 +85,7 @@ def state_to_boad_string(state)
     # out += "["
     row.each.with_index do |segment, j|
       out += segment
-      out += ' ' if j != (row.length - 1)
+      # out += ' ' if j != (row.length - 1)
     end
     # out += "]\n"
     out += "\n" if i != (matrix.length - 1)
