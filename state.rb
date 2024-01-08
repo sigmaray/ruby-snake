@@ -2,9 +2,18 @@ require 'yaml'
 
 MATRIX_SIZE = 10
 
-MATRIX_TYPE_TAIL = 't'
-MATRIX_TYPE_HEAD = 'h'
-MATRIX_TYPE_FOOD = 'f'
+# MATRIX_TYPE_TAIL = 't'
+MATRIX_TYPE_TAIL = '★'
+
+# MATRIX_TYPE_HEAD = 'h'
+MATRIX_TYPE_HEAD = '♥'
+
+
+# MATRIX_TYPE_FOOD = 'f'
+MATRIX_TYPE_FOOD = '@'
+
+MATRIX_TYPE_EMPTY = '▒'
+
 
 # $state = {
 #   segments: [
@@ -20,7 +29,7 @@ def state_find_empty_segments(state)
     MATRIX_SIZE.times do |x|
       # p ({x:, y:})
       # matrix[y][x] = '_'
-      if matrix[y][x] == '_'
+      if matrix[y][x] == MATRIX_TYPE_EMPTY
         empty_segments << {y:, x:}
       end
     end
@@ -50,7 +59,7 @@ def generate_empty_matrix
     matrix[y] = []
     MATRIX_SIZE.times do |x|
       # p ({x:, y:})
-      matrix[y][x] = '_'
+      matrix[y][x] = MATRIX_TYPE_EMPTY
     end
   end
   return matrix
@@ -71,12 +80,14 @@ def state_to_boad_string(state)
   matrix = state_to_matrix(state)
   return if matrix.length == 0
   out = ''  
-  matrix.each do |row|
-    out += "["
-    row.each do |segment|
-      out += segment + ' '
+  matrix.each.with_index do |row, i|
+    # out += "["
+    row.each.with_index do |segment, j|
+      out += segment
+      out += ' ' if j != (row.length - 1)
     end
-    out += "]\n"
+    # out += "]\n"
+    out += "\n" if i != (matrix.length - 1)
   end
   
   out
