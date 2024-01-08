@@ -16,7 +16,7 @@ require "curses"
 #   win.close
 # end
 
-$state = generate_state()
+$state = SnakeState.generate_state()
 
 Curses.init_screen
 Curses.noecho
@@ -36,25 +36,25 @@ begin
     case k
     when Curses::KEY_LEFT
       # @label.setText 'left'
-      state_snake_left($state)
+      SnakeState.state_snake_left($state)
     when Curses::KEY_RIGHT
       # @label.setText 'left'
-      state_snake_right($state)
+      SnakeState.state_snake_right($state)
     when Curses::KEY_UP
       # @label.setText 'up'
-      state_snake_up($state)
+      SnakeState.state_snake_up($state)
     when Curses::KEY_DOWN
       # @label.setText 'down'
-      state_snake_down($state)
+      SnakeState.state_snake_down($state)
     end
     
-    if state_is_eating($state)
-      $state[:food] = generate_random_food_position($state)
+    if SnakeState.state_is_eating($state)
+      $state[:food] = SnakeState.generate_random_food_position($state)
     end
 
     # print state_to_matrix($state).to_yaml
     # win.addch(snake_position[0][0], snake_position[0][1], '#')
-    str = state_to_boad_string($state)
+    str = SnakeState.state_to_boad_string($state)
     Curses.setpos(0, 0)
     Curses.addstr(str)
   end
