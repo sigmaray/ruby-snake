@@ -2,7 +2,7 @@ require "gtk3"
 require "json"
 require "./state.rb"
 
-$state = generate_state()
+$state = SnakeState.generate_state()
 # raise $state.inspect
 
 window = Gtk::Window.new("First example")
@@ -24,23 +24,23 @@ window.signal_connect("key-press-event") { |_widget, event|
   # p event.inspect
   k = Gdk::Keyval.to_name(event.keyval)
   if k == 'Up'
-    state_snake_up($state)
+    SnakeState.state_snake_up($state)
   elsif k == 'Down'
-    state_snake_down($state)
+    SnakeState.state_snake_down($state)
   elsif k == 'Left'
-    state_snake_left($state)
+    SnakeState.state_snake_left($state)
   elsif k == 'Right'
-    state_snake_right($state)
+    SnakeState.state_snake_right($state)
   end
-  if state_is_eating($state)
-    $state[:food] = generate_random_food_position($state)
+  if SnakeState.state_is_eating($state)
+    $state[:food] = SnakeState.generate_random_food_position($state)
   end
   replace_text(
     # event.inspect    
     Gdk::Keyval.to_name(event.keyval) +
     "\n\n" +
     # state_to_matrix($state).to_json
-    state_to_boad_string($state)
+    SnakeState.state_to_boad_string($state)
   )
 }
 
