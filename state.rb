@@ -137,65 +137,72 @@ module SnakeState
     
   end
 
-  def self.state_snake_up(state)
-    if state[:segments][0][:y] > 0
-      state[:segments][0][:y] -= 1
-    else
-      state[:segments][0][:y] = MATRIX_SIZE - 1
-    end
-  end
+  # def self.state_snake_up(state)
+  #   if state[:segments][0][:y] > 0
+  #     state[:segments][0][:y] -= 1
+  #   else
+  #     state[:segments][0][:y] = MATRIX_SIZE - 1
+  #   end
+  # end
 
-  def self.state_snake_down(state)
-    if state[:segments][0][:y] < MATRIX_SIZE - 1
-      state[:segments][0][:y] += 1
-    else
-      state[:segments][0][:y] = 0
-    end
-  end
+  # def self.state_snake_down(state)
+  #   if state[:segments][0][:y] < MATRIX_SIZE - 1
+  #     state[:segments][0][:y] += 1
+  #   else
+  #     state[:segments][0][:y] = 0
+  #   end
+  # end
 
-  def self.state_snake_left(state)
-    if state[:segments][0][:x] > 0
-      state[:segments][0][:x] -= 1
-    else
-      state[:segments][0][:x] = MATRIX_SIZE - 1
-    end
-  end
+  # def self.state_snake_left(state)
+  #   if state[:segments][0][:x] > 0
+  #     state[:segments][0][:x] -= 1
+  #   else
+  #     state[:segments][0][:x] = MATRIX_SIZE - 1
+  #   end
+  # end
 
-  def self.state_snake_right(state)
-    if state[:segments][0][:x] < MATRIX_SIZE - 1
-      state[:segments][0][:x] += 1
-    else
-      state[:segments][0][:x] = 0
-    end
+  # def self.state_snake_right(state)
+  #   if state[:segments][0][:x] < MATRIX_SIZE - 1
+  #     state[:segments][0][:x] += 1
+  #   else
+  #     state[:segments][0][:x] = 0
+  #   end
+  # end
+
+  def self.deep_copy(o)
+    Marshal.load(Marshal.dump(o))
   end
 
   def self.move_snake(state)
+    new_head = self.deep_copy(state[:segments][0])#.clone
     case state[:direction]
     when 'up'
-      if state[:segments][0][:y] > 0
-        state[:segments][0][:y] -= 1
+      if new_head[:y] > 0
+        new_head[:y] -= 1
       else
-        state[:segments][0][:y] = MATRIX_SIZE - 1
+        new_head[:y] = MATRIX_SIZE - 1
       end
     when 'down'
-      if state[:segments][0][:y] < MATRIX_SIZE - 1
-        state[:segments][0][:y] += 1
+      if new_head[:y] < MATRIX_SIZE - 1
+        new_head[:y] += 1
       else
-        state[:segments][0][:y] = 0
+        new_head[:y] = 0
       end
     when 'left'
-      if state[:segments][0][:x] > 0
-        state[:segments][0][:x] -= 1
+      if new_head[:x] > 0
+        new_head[:x] -= 1
       else
-        state[:segments][0][:x] = MATRIX_SIZE - 1
+        new_head[:x] = MATRIX_SIZE - 1
       end
     when 'right'
-      if state[:segments][0][:x] < MATRIX_SIZE - 1
-        state[:segments][0][:x] += 1
+      if new_head[:x] < MATRIX_SIZE - 1
+        new_head[:x] += 1
       else
-        state[:segments][0][:x] = 0
+        new_head[:x] = 0
       end
     end
+    state[:segments].unshift(new_head)
+    state[:segments].pop if !self.state_is_eating(state)    
   end
 
   def self.state_is_eating(state)
