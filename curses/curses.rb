@@ -45,16 +45,24 @@ begin
     case k
     when Curses::KEY_LEFT
       # @label.setText 'left'
-      SnakeState.state_snake_left($state)
+      # SnakeState.state_snake_left($state)
+      SnakeState.change_direction($state, 'left')
+      SnakeState.move_snake($state)
     when Curses::KEY_RIGHT
       # @label.setText 'left'
-      SnakeState.state_snake_right($state)
+      # SnakeState.state_snake_right($state)
+      SnakeState.change_direction($state, 'right')
+      SnakeState.move_snake($state)
     when Curses::KEY_UP
       # @label.setText 'up'
-      SnakeState.state_snake_up($state)
+      # SnakeState.state_snake_up($state)
+      SnakeState.change_direction($state, 'up')
+      SnakeState.move_snake($state)
     when Curses::KEY_DOWN
       # @label.setText 'down'
-      SnakeState.state_snake_down($state)
+      # SnakeState.state_snake_down($state)
+      SnakeState.change_direction($state, 'down')
+      SnakeState.move_snake($state)
     end
     
     # if SnakeState.state_is_eating($state)

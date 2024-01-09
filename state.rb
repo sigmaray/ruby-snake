@@ -93,6 +93,7 @@ module SnakeState
     matrix = state_to_matrix(state)
     return if matrix.length == 0
     out = ''
+    out += state.inspect + "\n\n"
     matrix.each.with_index do |row, i|
       # out += "["
       row.each.with_index do |segment, j|
@@ -104,6 +105,21 @@ module SnakeState
     end
 
     out
+  end
+
+  def self.change_direction(state, new_direction)
+    n = state[:direction]
+    case new_direction
+    when 'up'
+      n = new_direction if state[:direction] != 'down'
+    when 'down'
+      n = new_direction if state[:direction] != 'up'
+    when 'left'
+      n = new_direction if state[:direction] != 'right'
+    when 'right'
+      n = new_direction if state[:direction] != 'left'
+    end
+    state[:direction] = n
   end
 
   def self.state_snake_up(state)
@@ -135,6 +151,35 @@ module SnakeState
       state[:segments][0][:x] += 1
     else
       state[:segments][0][:x] = 0
+    end
+  end
+
+  def self.move_snake(state)
+    case state[:direction]
+    when 'up'
+      if state[:segments][0][:y] > 0
+        state[:segments][0][:y] -= 1
+      else
+        state[:segments][0][:y] = MATRIX_SIZE - 1
+      end
+    when 'down'
+      if state[:segments][0][:y] < MATRIX_SIZE - 1
+        state[:segments][0][:y] += 1
+      else
+        state[:segments][0][:y] = 0
+      end
+    when 'left'
+      if state[:segments][0][:x] > 0
+        state[:segments][0][:x] -= 1
+      else
+        state[:segments][0][:x] = MATRIX_SIZE - 1
+      end
+    when 'right'
+      if state[:segments][0][:x] < MATRIX_SIZE - 1
+        state[:segments][0][:x] += 1
+      else
+        state[:segments][0][:x] = 0
+      end
     end
   end
 
