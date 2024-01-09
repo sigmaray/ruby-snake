@@ -43,6 +43,12 @@ module SnakeState
     return empty.sample
   end
 
+  def self.generate_random_snake_position
+    # empty = state_find_empty_segments(state)
+    # return empty.sample
+    return {x: rand(1..(MATRIX_SIZE-1)), y: rand(1..(MATRIX_SIZE-1))}
+  end
+
   def self.try_to_eat(state)
     if SnakeState.state_is_eating(state)
       state[:food] = SnakeState.generate_random_food_position(state)
@@ -52,7 +58,8 @@ module SnakeState
   def self.generate_state
     state = {
       segments: [
-        {x: 1, y: 1}
+        # {x: 1, y: 1},
+        self.generate_random_snake_position()
       ],
       food: nil
     }
