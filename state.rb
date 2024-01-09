@@ -14,8 +14,6 @@ module SnakeState
 
   MATRIX_TYPE_EMPTY = '█'
 
-
-
   # $state = {
   #   segments: [
   #     {x: 1, y: 1}
@@ -61,7 +59,8 @@ module SnakeState
         # {x: 1, y: 1},
         self.generate_random_snake_position()
       ],
-      food: nil
+      food: nil,
+      direction: 'right'
     }
     state[:food] = generate_random_food_position(state)
     return state
