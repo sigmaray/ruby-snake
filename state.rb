@@ -43,6 +43,12 @@ module SnakeState
     return empty.sample
   end
 
+  def self.try_to_eat(state)
+    if SnakeState.state_is_eating(state)
+      state[:food] = SnakeState.generate_random_food_position(state)
+    end
+  end
+
   def self.generate_state
     state = {
       segments: [

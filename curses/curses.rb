@@ -22,6 +22,15 @@ Curses.init_screen
 Curses.noecho
 Curses.curs_set 0
 Curses.stdscr.keypad = true
+
+def print_to_terminal(str)
+  str = SnakeState.state_to_boad_string($state)
+  Curses.setpos(0, 0)
+  Curses.addstr(str)
+end
+
+print_to_terminal( SnakeState.state_to_boad_string($state) )
+
 begin
   while true
     # k = Curses.getch
@@ -48,15 +57,14 @@ begin
       SnakeState.state_snake_down($state)
     end
     
-    if SnakeState.state_is_eating($state)
-      $state[:food] = SnakeState.generate_random_food_position($state)
-    end
+    # if SnakeState.state_is_eating($state)
+    #   $state[:food] = SnakeState.generate_random_food_position($state)
+    # end
+    SnakeState.try_to_eat($state)
 
     # print state_to_matrix($state).to_yaml
     # win.addch(snake_position[0][0], snake_position[0][1], '#')
-    str = SnakeState.state_to_boad_string($state)
-    Curses.setpos(0, 0)
-    Curses.addstr(str)
+    print_to_terminal( SnakeState.state_to_boad_string($state) )
   end
   
   # Curses.crmode
