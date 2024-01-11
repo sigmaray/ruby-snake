@@ -3,8 +3,8 @@ require_relative  "../state.rb"
 require "curses"
 
 # USE_TIMER = false
-USE_TIMER = true
-BOARD_SIZE = 5
+USE_TIMER = ['0', 'false', 'off'].include?(ENV['TIMER']) ? false : true
+BOARD_SIZE = ENV['SIZE'] ? ENV['SIZE'].to_i : 5
 
 # def show_message(message)
 #   height = 5
