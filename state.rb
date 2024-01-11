@@ -4,7 +4,7 @@ module SnakeState
   # MATRIX_SIZE = 2
   # MATRIX_SIZE = 5
   # MATRIX_SIZE = 2
-  MATRIX_SIZE = 3
+  # MATRIX_SIZE = 3
 
   # MATRIX_TYPE_TAIL = 't'
   # MATRIX_TYPE_TAIL = '★'
@@ -32,8 +32,8 @@ module SnakeState
   def self.state_find_empty_segments(state)
     matrix = state_to_matrix(state)
     empty_segments = []
-    MATRIX_SIZE.times do |y|
-      MATRIX_SIZE.times do |x|
+    state[:board_size].times do |y|
+      state[:board_size].times do |x|
         # p ({x:, y:})
         # matrix[y][x] = '_'
         if matrix[y][x] == MATRIX_TYPE_EMPTY
@@ -49,10 +49,10 @@ module SnakeState
     return empty.sample
   end
 
-  def self.generate_random_snake_position
+  def self.generate_random_snake_position(board_size)
     # empty = state_find_empty_segments(state)
     # return empty.sample
-    return {x: rand(0..(MATRIX_SIZE-1)), y: rand(0..(MATRIX_SIZE-1))}
+    return {x: rand(0..(board_size-1)), y: rand(0..(board_size-1))}
   end
 
   def self.try_to_eat(state)
@@ -61,11 +61,12 @@ module SnakeState
     end
   end
 
-  def self.generate_state
+  def self.generate_state(board_size)
     state = {
+      board_size:,
       segments: [
         # {x: 1, y: 1},
-        self.generate_random_snake_position()
+        self.generate_random_snake_position(board_size)
       ],
       food: nil,
       direction: 'right',
@@ -75,11 +76,11 @@ module SnakeState
     return state
   end
 
-  def self.generate_empty_matrix
+  def self.generate_empty_matrix(board_size)
     matrix = []
-    MATRIX_SIZE.times do |y|
+    board_size.times do |y|
       matrix[y] = []
-      MATRIX_SIZE.times do |x|
+      board_size.times do |x|
         # p ({x:, y:})
         matrix[y][x] = MATRIX_TYPE_EMPTY
       end
@@ -88,7 +89,7 @@ module SnakeState
   end
 
   def self.state_to_matrix(state)
-    matrix = generate_empty_matrix()
+    matrix = generate_empty_matrix(state[:board_size])
     if !state.key?(:food) || !state[:food].nil?
       matrix[state[:food][:y]][state[:food][:x]] = MATRIX_TYPE_FOOD
     end
@@ -162,39 +163,6 @@ module SnakeState
       end
     end    
   end
-
-  # def self.state_snake_up(state)
-  #   if state[:segments][0][:y] > 0
-  #     state[:segments][0][:y] -= 1
-  #   else
-  #     state[:segments][0][:y] = MATRIX_SIZE - 1
-  #   end
-  # end
-
-  # def self.state_snake_down(state)
-  #   if state[:segments][0][:y] < MATRIX_SIZE - 1
-  #     state[:segments][0][:y] += 1
-  #   else
-  #     state[:segments][0][:y] = 0
-  #   end
-  # end
-
-  # def self.state_snake_left(state)
-  #   if state[:segments][0][:x] > 0
-  #     state[:segments][0][:x] -= 1
-  #   else
-  #     state[:segments][0][:x] = MATRIX_SIZE - 1
-  #   end
-  # end
-
-  # def self.state_snake_right(state)
-  #   if state[:segments][0][:x] < MATRIX_SIZE - 1
-  #     state[:segments][0][:x] += 1
-  #   else
-  #     state[:segments][0][:x] = 0
-  #   end
-  # end
-
   def self.deep_copy(o)
     Marshal.load(Marshal.dump(o))
   end
@@ -206,10 +174,10 @@ module SnakeState
       if new_head[:y] > 0
         new_head[:y] -= 1
       else
-        new_head[:y] = MATRIX_SIZE - 1
+        new_head[:y] = state[:board_size] - 1
       end
     when 'down'
-      if new_head[:y] < MATRIX_SIZE - 1
+      if new_head[:y] < state[:board_size] - 1
         new_head[:y] += 1
       else
         new_head[:y] = 0
@@ -218,10 +186,10 @@ module SnakeState
       if new_head[:x] > 0
         new_head[:x] -= 1
       else
-        new_head[:x] = MATRIX_SIZE - 1
+        new_head[:x] = state[:board_size] - 1
       end
     when 'right'
-      if new_head[:x] < MATRIX_SIZE - 1
+      if new_head[:x] < state[:board_size] - 1
         new_head[:x] += 1
       else
         new_head[:x] = 0
@@ -238,7 +206,7 @@ module SnakeState
   end
 
   def self.state_is_game_over(state)
-    res = state[:segments].length == MATRIX_SIZE*MATRIX_SIZE    
+    res = state[:segments].length == state[:board_size] * state[:board_size]    
     state[:is_over] = res
     return res
   end

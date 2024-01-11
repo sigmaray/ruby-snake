@@ -4,6 +4,7 @@ require "curses"
 
 # USE_TIMER = false
 USE_TIMER = true
+BOARD_SIZE = 5
 
 # def show_message(message)
 #   height = 5
@@ -19,7 +20,7 @@ USE_TIMER = true
 #   win.close
 # end
 
-$state = SnakeState.generate_state()
+$state = SnakeState.generate_state(BOARD_SIZE)
 
 Curses.init_screen
 Curses.noecho
@@ -77,7 +78,7 @@ begin
       dont_move = !SnakeState.change_direction($state, 'down')
       # SnakeState.move_snake($state)
     when 'r', 'R', 'к', 'К'
-      $state = SnakeState.generate_state()
+      $state = SnakeState.generate_state(BOARD_SIZE)
       dont_move = true
     end
 
