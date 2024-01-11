@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require "../state.rb"
+require_relative  "../state.rb"
 require "curses"
 
 # def show_message(message)
@@ -36,6 +36,8 @@ begin
   while true
     # k = Curses.getch
     k = Curses.get_char
+    # raise k.chr.inspect
+
     # raise k.inspect
     # p k
     # case k
@@ -61,9 +63,11 @@ begin
       # SnakeState.move_snake($state)
     when Curses::KEY_DOWN
       # @label.setText 'down'
-      # SnakeState.state_snake_down($state)
+      # SnakeState.state_snake_up($state)
       SnakeState.change_direction($state, 'down')
       # SnakeState.move_snake($state)
+    when 'r', 'R', 'к', 'К'
+      $state = SnakeState.generate_state()
     end
     
     # if SnakeState.state_is_eating($state)

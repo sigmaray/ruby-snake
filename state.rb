@@ -1,19 +1,24 @@
 require 'yaml'
 module SnakeState
   # MATRIX_SIZE = 10
+  # MATRIX_SIZE = 2
+  # MATRIX_SIZE = 5
   MATRIX_SIZE = 2
 
   # MATRIX_TYPE_TAIL = 't'
-  MATRIX_TYPE_TAIL = '★'
+  # MATRIX_TYPE_TAIL = '★'
+  MATRIX_TYPE_TAIL = '*'
 
   # MATRIX_TYPE_HEAD = 'h'
-  MATRIX_TYPE_HEAD = '♥'
+  # MATRIX_TYPE_HEAD = '♥'
+  MATRIX_TYPE_HEAD = '★'
 
 
   # MATRIX_TYPE_FOOD = 'f'
   MATRIX_TYPE_FOOD = '@'
 
-  MATRIX_TYPE_EMPTY = '█'
+  # MATRIX_TYPE_EMPTY = '█'
+  MATRIX_TYPE_EMPTY = '_'
 
   # $state = {
   #   segments: [
@@ -45,7 +50,7 @@ module SnakeState
   def self.generate_random_snake_position
     # empty = state_find_empty_segments(state)
     # return empty.sample
-    return {x: rand(1..(MATRIX_SIZE-1)), y: rand(1..(MATRIX_SIZE-1))}
+    return {x: rand(0..(MATRIX_SIZE-1)), y: rand(0..(MATRIX_SIZE-1))}
   end
 
   def self.try_to_eat(state)
@@ -86,8 +91,10 @@ module SnakeState
       matrix[state[:food][:y]][state[:food][:x]] = MATRIX_TYPE_FOOD
     end
     state[:segments].each_with_index do |segment, i|
-      matrix[segment[:y]][segment[:x]] = (i == 0) ? MATRIX_TYPE_HEAD : MATRIX_TYPE_TAIL
+      # matrix[segment[:y]][segment[:x]] = (i == 0) ? MATRIX_TYPE_HEAD : MATRIX_TYPE_TAIL
+      matrix[segment[:y]][segment[:x]] = MATRIX_TYPE_TAIL
     end
+    matrix[state[:segments][0][:y]][state[:segments][0][:x]] = MATRIX_TYPE_HEAD
     return matrix
   end
 
@@ -117,25 +124,28 @@ module SnakeState
     # n = state[:direction]
     case new_direction
     when 'up'
-      if state[:direction] != 'down'
+      # if true #if state[:direction] != 'down'
+      if !(state[:segments].length > 0 && state[:direction] == 'down')
         state[:direction] = new_direction
         self.move_snake(state)
       end
     when 'down'
       # n = new_direction if state[:direction] != 'up'
-      if state[:direction] != 'up'
+      # if true #if state[:direction] != 'up'
+      if !(state[:segments].length > 0 && state[:direction] == 'up')
         state[:direction] = new_direction
         self.move_snake(state)
       end
     when 'left'
       # n = new_direction if state[:direction] != 'right'
-      if state[:direction] != 'right'
+      if !(state[:segments].length > 0 && state[:direction] == 'right')
         state[:direction] = new_direction
         self.move_snake(state)
       end
     when 'right'
       # n = new_direction if state[:direction] != 'left'
-      if state[:direction] != 'left'
+      # if true #if state[:direction] != 'left'
+      if !(state[:segments].length > 0 && state[:direction] == 'left')
         state[:direction] = new_direction
         self.move_snake(state)
       end
