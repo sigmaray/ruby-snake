@@ -3,7 +3,8 @@ module SnakeState
   # MATRIX_SIZE = 10
   # MATRIX_SIZE = 2
   # MATRIX_SIZE = 5
-  MATRIX_SIZE = 2
+  # MATRIX_SIZE = 2
+  MATRIX_SIZE = 3
 
   # MATRIX_TYPE_TAIL = 't'
   # MATRIX_TYPE_TAIL = '★'
@@ -15,7 +16,8 @@ module SnakeState
 
 
   # MATRIX_TYPE_FOOD = 'f'
-  MATRIX_TYPE_FOOD = '@'
+  # MATRIX_TYPE_FOOD = '@'
+  MATRIX_TYPE_FOOD = '⬥'
 
   # MATRIX_TYPE_EMPTY = '█'
   MATRIX_TYPE_EMPTY = '_'
