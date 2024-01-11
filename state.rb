@@ -123,36 +123,44 @@ module SnakeState
   end
 
   def self.change_direction(state, new_direction)
+    correct_switch = true
     # n = state[:direction]
     case new_direction
     when 'up'
       # if true #if state[:direction] != 'down'
       if !(state[:segments].length > 0 && state[:direction] == 'down')
         state[:direction] = new_direction
-        self.move_snake(state)
+        # self.move_snake(state)
+      else
+        correct_switch = false
       end
     when 'down'
       # n = new_direction if state[:direction] != 'up'
       # if true #if state[:direction] != 'up'
       if !(state[:segments].length > 0 && state[:direction] == 'up')
         state[:direction] = new_direction
-        self.move_snake(state)
+        # self.move_snake(state)
+      else
+        correct_switch = false
       end
     when 'left'
       # n = new_direction if state[:direction] != 'right'
       if !(state[:segments].length > 0 && state[:direction] == 'right')
         state[:direction] = new_direction
-        self.move_snake(state)
+        # self.move_snake(state)
+      else
+        correct_switch = false
       end
     when 'right'
       # n = new_direction if state[:direction] != 'left'
       # if true #if state[:direction] != 'left'
       if !(state[:segments].length > 0 && state[:direction] == 'left')
         state[:direction] = new_direction
-        self.move_snake(state)
+        # self.move_snake(state)
+      else
+        correct_switch = false
       end
-    end
-    
+    end    
   end
 
   # def self.state_snake_up(state)

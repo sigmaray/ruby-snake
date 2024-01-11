@@ -2,6 +2,9 @@
 require_relative  "../state.rb"
 require "curses"
 
+# USE_TIMER = false
+USE_TIMER = true
+
 # def show_message(message)
 #   height = 5
 #   width  = message.length + 6
@@ -32,8 +35,14 @@ end
 
 print_to_terminal( SnakeState.state_to_boad_string($state) )
 
+# raise Curses.timeout.inspect
+Curses.timeout = 1000 if USE_TIMER
+
 begin
   while true
+    # raise 'l40'
+    # $state[:i] ||= 0
+    # $state[:i] += 1
     # k = Curses.getch
     k = Curses.get_char
     # raise k.chr.inspect
@@ -44,31 +53,35 @@ begin
     # when Curses::KEY_RIGHT
     #   p 'right'
     # end
+    dont_move = false
 
     case k
     when Curses::KEY_LEFT
       # @label.setText 'left'
       # SnakeState.state_snake_left($state)
-      SnakeState.change_direction($state, 'left')
+      dont_move = !SnakeState.change_direction($state, 'left')
       # SnakeState.move_snake($state)
     when Curses::KEY_RIGHT
       # @label.setText 'left'
       # SnakeState.state_snake_right($state)
-      SnakeState.change_direction($state, 'right')
+      dont_move = !SnakeState.change_direction($state, 'right')
       # SnakeState.move_snake($state)
     when Curses::KEY_UP
       # @label.setText 'up'
       # SnakeState.state_snake_up($state)
-      SnakeState.change_direction($state, 'up')
+      dont_move = !SnakeState.change_direction($state, 'up')
       # SnakeState.move_snake($state)
     when Curses::KEY_DOWN
       # @label.setText 'down'
       # SnakeState.state_snake_up($state)
-      SnakeState.change_direction($state, 'down')
+      dont_move = !SnakeState.change_direction($state, 'down')
       # SnakeState.move_snake($state)
     when 'r', 'R', 'к', 'К'
       $state = SnakeState.generate_state()
+      dont_move = true
     end
+
+    SnakeState.move_snake($state) if !dont_move
     
     # if SnakeState.state_is_eating($state)
     #   $state[:food] = SnakeState.generate_random_food_position($state)
