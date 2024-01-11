@@ -1,6 +1,7 @@
 require 'yaml'
 module SnakeState
-  MATRIX_SIZE = 10
+  # MATRIX_SIZE = 10
+  MATRIX_SIZE = 2
 
   # MATRIX_TYPE_TAIL = 't'
   MATRIX_TYPE_TAIL = '★'
@@ -60,7 +61,8 @@ module SnakeState
         self.generate_random_snake_position()
       ],
       food: nil,
-      direction: 'right'
+      direction: 'right',
+      is_over: false
     }
     state[:food] = generate_random_food_position(state)
     return state
@@ -90,6 +92,10 @@ module SnakeState
   end
 
   def self.state_to_boad_string(state)
+    if state[:is_over]
+      return "you won.\ngame is over"
+    end
+
     matrix = state_to_matrix(state)
     return if matrix.length == 0
     out = ''
@@ -209,6 +215,12 @@ module SnakeState
     return false if state[:food].nil?
 
     return state[:food] == state[:segments][0]
+  end
+
+  def self.state_is_game_over(state)
+    res = state[:segments].length == MATRIX_SIZE*MATRIX_SIZE    
+    state[:is_over] = res
+    return res
   end
 
   # print state_to_matrix($state).to_yaml

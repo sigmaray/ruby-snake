@@ -24,6 +24,7 @@ Curses.curs_set 0
 Curses.stdscr.keypad = true
 
 def print_to_terminal(str)
+  Curses.clear()
   str = SnakeState.state_to_boad_string($state)
   Curses.setpos(0, 0)
   Curses.addstr(str)
@@ -69,6 +70,8 @@ begin
     #   $state[:food] = SnakeState.generate_random_food_position($state)
     # end
     SnakeState.try_to_eat($state)
+
+    SnakeState.state_is_game_over($state)
 
     # print state_to_matrix($state).to_yaml
     # win.addch(snake_position[0][0], snake_position[0][1], '#')
