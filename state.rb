@@ -11,8 +11,8 @@ module SnakeState
   MATRIX_TYPE_TAIL = '*'
 
   # MATRIX_TYPE_HEAD = 'h'
-  # MATRIX_TYPE_HEAD = '♥'
-  MATRIX_TYPE_HEAD = '★'
+  MATRIX_TYPE_HEAD = '♥'
+  # MATRIX_TYPE_HEAD = '★'
 
 
   # MATRIX_TYPE_FOOD = 'f'
@@ -109,7 +109,6 @@ module SnakeState
     matrix = state_to_matrix(state)
     return if matrix.length == 0
     out = ''
-    out += state.inspect + "\n\n"
     matrix.each.with_index do |row, i|
       # out += "["
       row.each.with_index do |segment, j|
@@ -119,6 +118,7 @@ module SnakeState
       # out += "]\n"
       out += "\n" if i != (matrix.length - 1)
     end
+    out += "\n" + state.inspect + "\n\n"
 
     out
   end

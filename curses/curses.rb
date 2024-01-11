@@ -37,7 +37,7 @@ end
 print_to_terminal( SnakeState.state_to_boad_string($state) )
 
 # raise Curses.timeout.inspect
-Curses.timeout = 1000 if USE_TIMER
+Curses.timeout = 500 if USE_TIMER
 
 begin
   while true
