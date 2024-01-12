@@ -73,7 +73,7 @@ module SnakeState
 
   def self.state_to_matrix(state)
     matrix = generate_empty_matrix(state[:board_size])
-    if !state.key?(:food) || !state[:food].nil? # rubocop:disable Style/IfUnlessModifier
+    if state.key?(:food) && !state[:food].nil? # rubocop:disable Style/IfUnlessModifier
       matrix[state[:food][:y]][state[:food][:x]] = MATRIX_TYPE_FOOD
     end
     state[:segments].each do |segment|
