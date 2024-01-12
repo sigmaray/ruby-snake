@@ -39,10 +39,12 @@ module SnakeState
     { x: rand(0..(board_size - 1)), y: rand(0..(board_size - 1)) }
   end
 
-  def self.try_to_eat(state)
-    return unless SnakeState.state_is_eating(state)
+  def self.try_to_eat(old_state)    
+    return old_state unless SnakeState.state_is_eating(old_state)
 
+    state = deep_copy(old_state)
     state[:food] = SnakeState.generate_random_food_position(state)
+    state
   end
 
   def self.generate_state(board_size)
@@ -101,7 +103,8 @@ module SnakeState
     out
   end
 
-  def self.change_direction(state, new_direction)
+  def self.change_direction(old_state, new_direction)
+    state = deep_copy(old_state)
     correct_switch = true
     case new_direction
     when "up"
@@ -129,14 +132,16 @@ module SnakeState
         state[:direction] = new_direction
       end
     end
-    correct_switch
+    
+    return state, correct_switch
   end
 
   def self.deep_copy(item)
     Marshal.load(Marshal.dump(item))
   end
 
-  def self.move_snake(state)
+  def self.move_snake(old_state)
+    state = deep_copy(old_state)
     new_head = deep_copy(state[:segments][0]) # .clone
     case state[:direction]
     when "up"
@@ -166,6 +171,7 @@ module SnakeState
     end
     state[:segments].unshift(new_head)
     state[:segments].pop unless state_is_eating(state)
+    state
   end
 
   def self.state_is_eating(state)
@@ -174,9 +180,10 @@ module SnakeState
     state[:food] == state[:segments][0]
   end
 
-  def self.state_is_game_over(state)
+  def self.state_is_game_over(old_state)
+    state = deep_copy(old_state)
     res = state[:segments].length == state[:board_size] * state[:board_size]
     state[:is_over] = res
-    res
+    state
   end
 end
