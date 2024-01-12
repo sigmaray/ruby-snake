@@ -1,4 +1,8 @@
-require "yaml"
+# frozen_string_literal: true
+
+# Tried to move all the functions that create
+# and modify state into separate module.
+# I don't like OOP, so I'm using module instead of class.
 module SnakeState
   # MATRIX_TYPE_TAIL = 't'
   # MATRIX_TYPE_TAIL = '★'
