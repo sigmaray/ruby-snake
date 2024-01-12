@@ -19,26 +19,6 @@ module SnakeState
   # MATRIX_TYPE_EMPTY = '█'
   MATRIX_TYPE_EMPTY = "_"
 
-  def self.state_find_empty_segments(state)
-    matrix = state_to_matrix(state)
-    empty_segments = []
-    state[:board_size].times do |y|
-      state[:board_size].times do |x|
-        empty_segments << ({ y:, x: }) if matrix[y][x] == MATRIX_TYPE_EMPTY
-      end
-    end
-    empty_segments
-  end
-
-  def self.generate_random_food_position(state)
-    empty = state_find_empty_segments(state)
-    empty.sample
-  end
-
-  def self.generate_random_snake_position(board_size)
-    { x: rand(0..(board_size - 1)), y: rand(0..(board_size - 1)) }
-  end
-
   def self.try_to_eat(old_state)    
     return old_state unless SnakeState.state_is_eating(old_state)
 
@@ -62,17 +42,6 @@ module SnakeState
     state
   end
 
-  def self.generate_empty_matrix(board_size)
-    matrix = []
-    board_size.times do |y|
-      matrix[y] = []
-      board_size.times do |x|
-        matrix[y][x] = MATRIX_TYPE_EMPTY
-      end
-    end
-    matrix
-  end
-
   def self.state_to_matrix(state)
     matrix = generate_empty_matrix(state[:board_size])
     if state.key?(:food) && !state[:food].nil? # rubocop:disable Style/IfUnlessModifier
@@ -85,7 +54,7 @@ module SnakeState
     matrix
   end
 
-  def self.state_to_boad_string(state)
+  def self.state_to_string(state)
     return "You won.\nPress R to restart the game." if state[:is_over]
 
     matrix = state_to_matrix(state)
@@ -136,10 +105,6 @@ module SnakeState
     return state, correct_switch
   end
 
-  def self.deep_copy(item)
-    Marshal.load(Marshal.dump(item))
-  end
-
   def self.move_snake(old_state)
     state = deep_copy(old_state)
     new_head = deep_copy(state[:segments][0]) # .clone
@@ -174,16 +139,53 @@ module SnakeState
     state
   end
 
+  def self.state_is_game_over(old_state)
+    state = deep_copy(old_state)
+    res = state[:segments].length == state[:board_size] * state[:board_size]
+    state[:is_over] = res
+    state
+  end
+
+  private
+
+  def self.deep_copy(item)
+    Marshal.load(Marshal.dump(item))
+  end
+
   def self.state_is_eating(state)
     return false if state[:food].nil?
 
     state[:food] == state[:segments][0]
   end
 
-  def self.state_is_game_over(old_state)
-    state = deep_copy(old_state)
-    res = state[:segments].length == state[:board_size] * state[:board_size]
-    state[:is_over] = res
-    state
+  def self.generate_random_food_position(state)
+    empty = state_find_empty_segments(state)
+    empty.sample
+  end
+
+  def self.generate_random_snake_position(board_size)
+    { x: rand(0..(board_size - 1)), y: rand(0..(board_size - 1)) }
+  end
+
+  def self.state_find_empty_segments(state)
+    matrix = state_to_matrix(state)
+    empty_segments = []
+    state[:board_size].times do |y|
+      state[:board_size].times do |x|
+        empty_segments << ({ y:, x: }) if matrix[y][x] == MATRIX_TYPE_EMPTY
+      end
+    end
+    empty_segments
+  end
+
+  def self.generate_empty_matrix(board_size)
+    matrix = []
+    board_size.times do |y|
+      matrix[y] = []
+      board_size.times do |x|
+        matrix[y][x] = MATRIX_TYPE_EMPTY
+      end
+    end
+    matrix
   end
 end

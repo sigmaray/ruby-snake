@@ -8,7 +8,7 @@ $state = generate_state()
 # KeyEvent = java.awt.event.KeyEvent
 java_import java.awt.event.KeyEvent
 
-state_to_boad_string($state)
+state_to_string($state)
 
 class TopFrame < JFrame
   # include java.awt.event.KeyListener
@@ -99,7 +99,7 @@ class TopFrame < JFrame
       # t += "\n\n"
       # t += 
       # @label.setText t
-      pppp = state_to_boad_string($state)
+      pppp = state_to_string($state)
       t = "<html><pre>#{pppp}</pre></html>"
       @label.setText t
     # end

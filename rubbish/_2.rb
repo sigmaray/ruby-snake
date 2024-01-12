@@ -40,7 +40,7 @@ window.signal_connect("key-press-event") { |_widget, event|
     Gdk::Keyval.to_name(event.keyval) +
     "\n\n" +
     # state_to_matrix($state).to_json
-    SnakeState.state_to_boad_string($state)
+    SnakeState.state_to_string($state)
   )
 }
 
