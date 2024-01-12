@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
-require_relative  "./state.rb"
-# require_relative  "../state.rb"
+
+require_relative "state"
 require "curses"
 
 # USE_TIMER = false
-USE_TIMER = ['0', 'false', 'off'].include?(ENV['TIMER']) ? false : true
-BOARD_SIZE = ENV['SIZE'].to_i > 1 ? ENV['SIZE'].to_i : 5
+USE_TIMER = %w[0 false off].include?(ENV["TIMER"]) ? false : true
+BOARD_SIZE = ENV["SIZE"].to_i > 1 ? ENV["SIZE"].to_i : 5
 TIMEOUT = 500
 
 # def show_message(message)
@@ -30,19 +30,18 @@ Curses.curs_set 0
 Curses.stdscr.keypad = true
 
 def print_to_terminal(str)
-  Curses.clear()
-  str = SnakeState.state_to_boad_string($state)
+  Curses.clear
   Curses.setpos(0, 0)
   Curses.addstr(str)
 end
 
-print_to_terminal( SnakeState.state_to_boad_string($state) )
+print_to_terminal(SnakeState.state_to_boad_string($state))
 
 # raise Curses.timeout.inspect
 Curses.timeout = TIMEOUT if USE_TIMER
 
 begin
-  while true
+  loop do
     # raise 'l40'
     # $state[:i] ||= 0
     # $state[:i] += 1
@@ -62,30 +61,30 @@ begin
     when Curses::KEY_LEFT
       # @label.setText 'left'
       # SnakeState.state_snake_left($state)
-      dont_move = !SnakeState.change_direction($state, 'left')
+      dont_move = !SnakeState.change_direction($state, "left")
       # SnakeState.move_snake($state)
     when Curses::KEY_RIGHT
       # @label.setText 'left'
       # SnakeState.state_snake_right($state)
-      dont_move = !SnakeState.change_direction($state, 'right')
+      dont_move = !SnakeState.change_direction($state, "right")
       # SnakeState.move_snake($state)
     when Curses::KEY_UP
       # @label.setText 'up'
       # SnakeState.state_snake_up($state)
-      dont_move = !SnakeState.change_direction($state, 'up')
+      dont_move = !SnakeState.change_direction($state, "up")
       # SnakeState.move_snake($state)
     when Curses::KEY_DOWN
       # @label.setText 'down'
       # SnakeState.state_snake_up($state)
-      dont_move = !SnakeState.change_direction($state, 'down')
+      dont_move = !SnakeState.change_direction($state, "down")
       # SnakeState.move_snake($state)
-    when 'r', 'R', 'к', 'К'
+    when "r", "R", "к", "К"
       $state = SnakeState.generate_state(BOARD_SIZE)
       dont_move = true
     end
 
-    SnakeState.move_snake($state) if !dont_move
-    
+    SnakeState.move_snake($state) unless dont_move
+
     # if SnakeState.state_is_eating($state)
     #   $state[:food] = SnakeState.generate_random_food_position($state)
     # end
@@ -95,9 +94,9 @@ begin
 
     # print state_to_matrix($state).to_yaml
     # win.addch(snake_position[0][0], snake_position[0][1], '#')
-    print_to_terminal( SnakeState.state_to_boad_string($state) )
+    print_to_terminal(SnakeState.state_to_boad_string($state))
   end
-  
+
   # Curses.crmode
   # Curses.setpos((Curses.lines - 1) / 2, (Curses.cols - 11) / 2)
   # Curses.addstr("Hit any key")
