@@ -4,7 +4,8 @@ require "curses"
 
 # USE_TIMER = false
 USE_TIMER = ['0', 'false', 'off'].include?(ENV['TIMER']) ? false : true
-BOARD_SIZE = ENV['SIZE'] ? ENV['SIZE'].to_i : 5
+BOARD_SIZE = ENV['SIZE'].to_i > 1 ? ENV['SIZE'].to_i : 5
+TIMEOUT = 500
 
 # def show_message(message)
 #   height = 5
@@ -37,7 +38,7 @@ end
 print_to_terminal( SnakeState.state_to_boad_string($state) )
 
 # raise Curses.timeout.inspect
-Curses.timeout = 500 if USE_TIMER
+Curses.timeout = TIMEOUT if USE_TIMER
 
 begin
   while true
