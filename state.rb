@@ -9,8 +9,8 @@ module SnakeState
   MATRIX_TYPE_TAIL = "*"
 
   # MATRIX_TYPE_HEAD = 'h'
-  MATRIX_TYPE_HEAD = "♥"
   # MATRIX_TYPE_HEAD = '★'
+  MATRIX_TYPE_HEAD = "♥"  
 
   # MATRIX_TYPE_FOOD = 'f'
   # MATRIX_TYPE_FOOD = '@'
@@ -91,12 +91,9 @@ module SnakeState
 
     out = ""
     matrix.each.with_index do |row, i|
-      # out += "["
       row.each do |segment|
         out += segment
-        # out += ' ' if j != (row.length - 1)
       end
-      # out += "]\n"
       out += "\n" if i != (matrix.length - 1)
     end
     out += "\n#{state.inspect}\n\n"
@@ -106,41 +103,30 @@ module SnakeState
 
   def self.change_direction(state, new_direction)
     correct_switch = true
-    # n = state[:direction]
     case new_direction
     when "up"
-      # if true #if state[:direction] != 'down'
       if state[:segments].length >= 2 && state[:direction] == "down"
         correct_switch = false
       else
         state[:direction] = new_direction
-        # self.move_snake(state)
       end
     when "down"
-      # n = new_direction if state[:direction] != 'up'
-      # if true #if state[:direction] != 'up'
       if state[:segments].length >= 2 && state[:direction] == "up"
         correct_switch = false
       else
         state[:direction] = new_direction
-        # self.move_snake(state)
       end
     when "left"
-      # n = new_direction if state[:direction] != 'right'
       if state[:segments].length >= 2 && state[:direction] == "right"
         correct_switch = false
       else
         state[:direction] = new_direction
-        # self.move_snake(state)
       end
     when "right"
-      # n = new_direction if state[:direction] != 'left'
-      # if true #if state[:direction] != 'left'
       if state[:segments].length >= 2 && state[:direction] == "left"
         correct_switch = false
       else
         state[:direction] = new_direction
-        # self.move_snake(state)
       end
     end
     correct_switch
