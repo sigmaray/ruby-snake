@@ -64,7 +64,6 @@ module SnakeState
     board_size.times do |y|
       matrix[y] = []
       board_size.times do |x|
-        # p ({x:, y:})
         matrix[y][x] = MATRIX_TYPE_EMPTY
       end
     end
@@ -193,8 +192,6 @@ module SnakeState
     state[:is_over] = res
     return res
   end
-
-  # print state_to_matrix($state).to_yaml
 end
 
 
