@@ -1,11 +1,5 @@
 require 'yaml'
 module SnakeState
-  # MATRIX_SIZE = 10
-  # MATRIX_SIZE = 2
-  # MATRIX_SIZE = 5
-  # MATRIX_SIZE = 2
-  # MATRIX_SIZE = 3
-
   # MATRIX_TYPE_TAIL = 't'
   # MATRIX_TYPE_TAIL = '★'
   MATRIX_TYPE_TAIL = '*'
@@ -22,20 +16,11 @@ module SnakeState
   # MATRIX_TYPE_EMPTY = '█'
   MATRIX_TYPE_EMPTY = '_'
 
-  # $state = {
-  #   segments: [
-  #     {x: 1, y: 1}
-  #   ],
-  #   food: {x: 5, y: 5}
-  # }
-
   def self.state_find_empty_segments(state)
     matrix = state_to_matrix(state)
     empty_segments = []
     state[:board_size].times do |y|
       state[:board_size].times do |x|
-        # p ({x:, y:})
-        # matrix[y][x] = '_'
         if matrix[y][x] == MATRIX_TYPE_EMPTY
           empty_segments << {y:, x:}
         end
@@ -50,8 +35,6 @@ module SnakeState
   end
 
   def self.generate_random_snake_position(board_size)
-    # empty = state_find_empty_segments(state)
-    # return empty.sample
     return {x: rand(0..(board_size-1)), y: rand(0..(board_size-1))}
   end
 
