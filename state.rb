@@ -103,7 +103,7 @@ module SnakeState
 
   def self.state_to_boad_string(state)
     if state[:is_over]
-      return "you won.\ngame is over"
+      return "You won.\nPress R to restart the game."
     end
 
     matrix = state_to_matrix(state)
