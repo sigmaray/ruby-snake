@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
-require_relative  "../state.rb"
+require_relative  "./state.rb"
+# require_relative  "../state.rb"
 require "curses"
 
 # USE_TIMER = false
