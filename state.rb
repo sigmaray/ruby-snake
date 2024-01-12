@@ -106,44 +106,44 @@ module SnakeState
     case new_direction
     when "up"
       # if true #if state[:direction] != 'down'
-      if !(state[:segments].length >= 2 && state[:direction] == "down")
+      if state[:segments].length >= 2 && state[:direction] == "down"
+        correct_switch = false
+      else
         state[:direction] = new_direction
         # self.move_snake(state)
-      else
-        correct_switch = false
       end
     when "down"
       # n = new_direction if state[:direction] != 'up'
       # if true #if state[:direction] != 'up'
-      if !(state[:segments].length >= 2 && state[:direction] == "up")
+      if state[:segments].length >= 2 && state[:direction] == "up"
+        correct_switch = false
+      else
         state[:direction] = new_direction
         # self.move_snake(state)
-      else
-        correct_switch = false
       end
     when "left"
       # n = new_direction if state[:direction] != 'right'
-      if !(state[:segments].length >= 2 && state[:direction] == "right")
+      if state[:segments].length >= 2 && state[:direction] == "right"
+        correct_switch = false
+      else
         state[:direction] = new_direction
         # self.move_snake(state)
-      else
-        correct_switch = false
       end
     when "right"
       # n = new_direction if state[:direction] != 'left'
       # if true #if state[:direction] != 'left'
-      if !(state[:segments].length >= 2 && state[:direction] == "left")
+      if state[:segments].length >= 2 && state[:direction] == "left"
+        correct_switch = false
+      else
         state[:direction] = new_direction
         # self.move_snake(state)
-      else
-        correct_switch = false
       end
     end
     correct_switch
   end
 
-  def self.deep_copy(o)
-    Marshal.load(Marshal.dump(o))
+  def self.deep_copy(item)
+    Marshal.load(Marshal.dump(item))
   end
 
   def self.move_snake(state)

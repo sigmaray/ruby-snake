@@ -4,7 +4,7 @@ require_relative "state"
 require "curses"
 
 # USE_TIMER = false
-USE_TIMER = %w[0 false off].include?(ENV["TIMER"]) ? false : true
+USE_TIMER = %w[0 false off].include?(ENV["TIMER"]) ? false : true # rubocop:disable Style/IfWithBooleanLiteralBranches
 BOARD_SIZE = ENV["SIZE"].to_i > 1 ? ENV["SIZE"].to_i : 5
 TIMEOUT = 500
 
