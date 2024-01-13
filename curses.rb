@@ -55,7 +55,7 @@ begin
 
     state = SnakeState.move_snake(state) if can_move
 
-    state = SnakeState.try_to_eat(state)
+    state = SnakeState.eat_and_gen_food(state)
 
     state = SnakeState.state_is_game_over(state)
 

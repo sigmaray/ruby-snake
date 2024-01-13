@@ -93,7 +93,7 @@ class TopFrame < JFrame
         state_snake_down($state)
       end
 
-      if state_is_eating($state)
+      if is_eating?($state)
         $state[:food] = generate_random_food_position($state)
       end
       # t += "\n\n"

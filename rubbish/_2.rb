@@ -32,7 +32,7 @@ window.signal_connect("key-press-event") { |_widget, event|
   elsif k == 'Right'
     SnakeState.state_snake_right($state)
   end
-  if SnakeState.state_is_eating($state)
+  if SnakeState.is_eating?($state)
     $state[:food] = SnakeState.generate_random_food_position($state)
   end
   replace_text(

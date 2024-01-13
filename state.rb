@@ -19,8 +19,8 @@ module SnakeState
   # MATRIX_TYPE_EMPTY = '█'
   MATRIX_TYPE_EMPTY = "_"
 
-  def self.try_to_eat(old_state)    
-    return old_state unless SnakeState.state_is_eating(old_state)
+  def self.eat_and_gen_food(old_state)    
+    return old_state unless SnakeState.is_eating?(old_state)
 
     state = deep_copy(old_state)
     state[:food] = SnakeState.generate_random_food_position(state)
@@ -135,7 +135,7 @@ module SnakeState
       end
     end
     state[:segments].unshift(new_head)
-    state[:segments].pop unless state_is_eating(state)
+    state[:segments].pop unless is_eating?(state)
     state
   end
 
@@ -152,14 +152,14 @@ module SnakeState
     Marshal.load(Marshal.dump(item))
   end
 
-  def self.state_is_eating(state)
+  def self.is_eating?(state)
     return false if state[:food].nil?
 
     state[:food] == state[:segments][0]
   end
 
   def self.generate_random_food_position(state)
-    empty = state_find_empty_segments(state)
+    empty = find_empty_segments(state)
     empty.sample
   end
 
@@ -167,7 +167,7 @@ module SnakeState
     { x: rand(0..(board_size - 1)), y: rand(0..(board_size - 1)) }
   end
 
-  def self.state_find_empty_segments(state)
+  def self.find_empty_segments(state)
     matrix = state_to_matrix(state)
     empty_segments = []
     state[:board_size].times do |y|
