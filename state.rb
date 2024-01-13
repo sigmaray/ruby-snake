@@ -67,7 +67,7 @@ module SnakeState
       end
       out += "\n" if i != (matrix.length - 1)
     end
-    out += "\n#{state.inspect}\n\n"
+    # out += "\n#{state.inspect}\n\n"
 
     out
   end
