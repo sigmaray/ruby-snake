@@ -33,4 +33,4 @@ JavaThread = java.lang.Thread
 ###
 FlowLayout = java.awt.FlowLayout
 java_import javax.swing.JLabel
-
+java_import java.awt.Font;

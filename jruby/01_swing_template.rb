@@ -49,6 +49,7 @@ class TopFrame < JFrame
     # self.addKeyListener(self)
 
     @label = JLabel.new
+    @label.setFont(Font.new("Monospaced", Font::PLAIN, 24));
     self.getContentPane().add(@label)
   end
 
