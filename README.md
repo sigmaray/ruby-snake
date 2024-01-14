@@ -1,6 +1,6 @@
 # Snake game imeplemented in Ruby (Curses, GTK3, JRuby/Swing)
 
-# How to play the game
+## How to play the game
 * Use arrow keys to move the snake
 * Press "r" key to restart the game
 
