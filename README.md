@@ -36,7 +36,7 @@
 docker-compose up
 ```
 Open http://localhost:8080/, click on "vnc_auto.html@"
-Launch the game from terminal.
+Launch the game from terminal (`ruby gtk/gtk.rb`)
 
 ![image](https://github.com/sigmaray/ruby-snake/assets/1594701/c7d13de3-a9bc-4a9d-aef6-2d9f218bb937)
 
@@ -48,7 +48,7 @@ make docker-build-and-run
 docker build -t ruby-snake . && docker run -it -p 8080:8080 ruby-snake
 ```
 Open http://localhost:8080/, click on "vnc_auto.html@"
-Launch the game from terminal.
+Launch the game from terminal (`ruby gtk/gtk.rb`)
 
 # Screenshots
 
