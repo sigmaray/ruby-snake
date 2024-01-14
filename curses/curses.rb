@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 # frozen_string_literal: true
 
 require "curses"
@@ -35,8 +33,6 @@ Curses.timeout = options[:timeout] if options[:use_timer]
 begin
   loop do
     k = Curses.get_char
-
-    can_move = true
 
     case k
     when Curses::KEY_LEFT

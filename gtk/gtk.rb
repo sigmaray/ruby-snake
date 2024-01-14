@@ -18,14 +18,15 @@ font_description = Pango::FontDescription.new("Monospace 16")
 text_view.override_font(font_description)
 text_view.set_editable(false)
 window.add(text_view)
-def replace_text(text_view, str)
+def set_text(text_view, str)
   text_view.buffer.text = str
 end
+set_text(text_view, SnakeState.state_to_string(state))
 
 if options[:use_timer]
   GLib::Timeout.add(options[:timeout]) do
     state = SnakeState.on_timer(state)
-    replace_text text_view, SnakeState.state_to_string(state)
+    set_text text_view, SnakeState.state_to_string(state)
   end
 end
 
@@ -44,7 +45,7 @@ window.signal_connect("key-press-event") do |_widget, event|
     state = SnakeState.on_key_press(state, "r")
   end
 
-  replace_text(
+  set_text(
     text_view,
     SnakeState.state_to_string(state)
   )
@@ -53,7 +54,5 @@ end
 window.signal_connect("delete-event") { |_widget| Gtk.main_quit }
 
 window.show_all
-
-replace_text(text_view, SnakeState.state_to_string(state))
 
 Gtk.main
