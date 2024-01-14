@@ -6,8 +6,6 @@ java_import javax.swing.JFrame, javax.swing.SwingUtilities, java.awt.Dimension, 
 require_relative "../lib/options"
 require_relative "../lib/state"
 
-options = parse_env
-
 # JRuby/Swing UI for snake game
 class TopFrame < JFrame
   def initialize
@@ -16,7 +14,9 @@ class TopFrame < JFrame
     pack
     set_visible(true)
 
-    @state = SnakeState.generate_state(options[:size])
+    @options = parse_env
+
+    @state = SnakeState.generate_state(@options[:size])
 
     print_to_label SnakeState.state_to_string(@state)
 
@@ -24,9 +24,9 @@ class TopFrame < JFrame
       keyPressed(event) if name == :keyPressed
     end)
 
-    return unless options[:use_timer]
+    return unless @options[:use_timer]
 
-    timer = Timer.new(options[:timeout], nil)
+    timer = Timer.new(@options[:timeout], nil)
     timer.add_action_listener do |_e|
       @state = SnakeState.on_timer(@state)
       print_to_label SnakeState.state_to_string(@state)
