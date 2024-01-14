@@ -78,7 +78,7 @@ module SnakeState
     def change_direction(old_state, new_direction)
       state = deep_copy(old_state)
       correct_switch = true
-      case new_direction
+      case new_direction.to_s
       when "up"
         if state[:segments].length >= 2 && state[:direction] == "down"
           correct_switch = false
@@ -139,6 +139,38 @@ module SnakeState
       end
       state[:segments].unshift(new_head)
       state[:segments].pop unless eating?(state)
+      state
+    end
+
+    def on_timer(old_state)
+      state = deep_copy(old_state)
+      state = SnakeState.move_snake(state)
+      state = SnakeState.eat_and_gen_food(state)
+      state = SnakeState.maybe_end_game(state)
+      state
+    end
+
+    def on_key_press(old_state, k)
+      state = deep_copy(old_state)
+
+      case k.to_s
+      when "up"
+        state, can_move = change_direction(state, "up")
+      when "down"
+        state, can_move = change_direction(state, "down")
+      when "left"
+        state, can_move = change_direction(state, "left")
+      when "right"
+        state, can_move = change_direction(state, "right")
+      when "r"
+        state = generate_state(BOARD_SIZE)
+        can_move = false
+      end
+
+      state = SnakeState.move_snake(state) if can_move
+      state = SnakeState.eat_and_gen_food(state)
+      state = SnakeState.maybe_end_game(state)
+
       state
     end
 
