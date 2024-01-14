@@ -38,6 +38,8 @@ docker-compose up
 Open http://localhost:8080/, click on "vnc_auto.html@"
 Launch the game from terminal.
 
+![image](https://github.com/sigmaray/ruby-snake/assets/1594701/c7d13de3-a9bc-4a9d-aef6-2d9f218bb937)
+
 # How to run the game with docker
 ```
 # this one:
