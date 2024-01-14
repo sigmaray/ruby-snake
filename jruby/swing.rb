@@ -29,9 +29,7 @@ class TopFrame < JFrame
 
     timer = Timer.new(TIMEOUT, nil)
     timer.add_action_listener do |_e|
-      @state = SnakeState.move_snake(@state)
-      @state = SnakeState.eat_and_gen_food(@state)
-      @state = SnakeState.maybe_end_game(@state)
+      @state = SnakeState.on_timer(@state)
       print_to_label SnakeState.state_to_string(@state)
     end
     timer.start
@@ -51,26 +49,18 @@ class TopFrame < JFrame
   def keyPressed(event) # rubocop:disable Naming/MethodName
     case event.keyCode
     when KeyEvent::VK_LEFT
-      @state, can_move = SnakeState.change_direction(@state, "left")
+      @state = SnakeState.on_key_press(@state, "left")
     when KeyEvent::VK_RIGHT
-      @state, can_move = SnakeState.change_direction(@state, "right")
+      @state = SnakeState.on_key_press(@state, "right")
     when KeyEvent::VK_UP
-      @state, can_move = SnakeState.change_direction(@state, "up")
+      @state = SnakeState.on_key_press(@state, "up")
     when KeyEvent::VK_DOWN
-      @state, can_move = SnakeState.change_direction(@state, "down")
+      @state = SnakeState.on_key_press(@state, "down")
     end
 
     if event.getKeyChar < 256 && %w[r R к К].include?(event.getKeyChar.chr)
-      # Restart the game
-      @state = SnakeState.generate_state(BOARD_SIZE)
-      can_move = false
+      @state = SnakeState.on_key_press(@state, "r")
     end
-
-    @state = SnakeState.move_snake(@state) if can_move
-
-    @state = SnakeState.eat_and_gen_food(@state)
-
-    @state = SnakeState.maybe_end_game(@state)
 
     print_to_label SnakeState.state_to_string(@state)
   end

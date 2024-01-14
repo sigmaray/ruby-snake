@@ -13,6 +13,9 @@ WORKDIR /game
 
 COPY . .
 
+# Running bundle install as root is bad, but in this project Docker is used only for demonstration purposes.
+# So in this particular case doing bundle install as root is ok.
+
 RUN /bin/bash -l -c ". /etc/profile.d/rvm.sh && cd curses && bundle install"
 
 # I have no idea why it's necessary to do "gem install gtk3 " before "bundle install" and have no time
