@@ -47,3 +47,14 @@ docker build -t ruby-snake . && docker run -it -p 8080:8080 ruby-snake
 ```
 Open http://localhost:8080/, click on "vnc_auto.html@"
 Launch the game from terminal.
+
+# Screenshots
+
+![image](https://github.com/sigmaray/ruby-snake/assets/1594701/812ba195-6c1d-4340-8ee0-16968282e75d)
+
+![image](https://github.com/sigmaray/ruby-snake/assets/1594701/1fe02217-c13f-4da3-a131-43bb65c190f3)
+
+![image](https://github.com/sigmaray/ruby-snake/assets/1594701/80c73ce5-f56a-4d1e-acff-b29e5002ea1c)
+
+
+
