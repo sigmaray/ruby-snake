@@ -14,10 +14,12 @@ module SnakeState
 
   # MATRIX_TYPE_FOOD = 'f'
   # MATRIX_TYPE_FOOD = '@'
-  MATRIX_TYPE_FOOD = "⬥"
+  # MATRIX_TYPE_FOOD = "⬥"
+  MATRIX_TYPE_FOOD = "@"
 
   # MATRIX_TYPE_EMPTY = '█'
-  MATRIX_TYPE_EMPTY = "_"
+  # MATRIX_TYPE_EMPTY = "_"
+  MATRIX_TYPE_EMPTY = "-"
 
   class << self
     def eat_and_gen_food(old_state)

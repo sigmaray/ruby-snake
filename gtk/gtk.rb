@@ -21,10 +21,23 @@ window.set_border_width(10)
 # window.add(button)
 
 
-$view1 = Gtk::TextView.new
-window.add($view1)
+$text_view = Gtk::TextView.new
+font_description = Pango::FontDescription.new('Monospace 16')
+$text_view.override_font(font_description)
+$text_view.set_editable(false)
+window.add($text_view)
 def replace_text(str)
-  $view1.buffer.text = str
+  $text_view.buffer.text = str
+end
+
+if USE_TIMER
+  timer = GLib::Timeout.add(TIMEOUT) {on_timer}
+  def on_timer
+    $state = SnakeState.move_snake($state)
+    $state = SnakeState.eat_and_gen_food($state)
+    $state = SnakeState.maybe_end_game($state)
+    replace_text SnakeState.state_to_string($state)
+  end
 end
 
 window.signal_connect("key-press-event") { |_widget, event|

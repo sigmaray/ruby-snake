@@ -34,7 +34,7 @@ class TopFrame < JFrame
         print_to_label SnakeState.state_to_string(@state)
       end
       timer.start
-    end    
+    end
   end
 
   def init_components
