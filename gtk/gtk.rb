@@ -8,9 +8,8 @@ BOARD_SIZE = ENV["SIZE"].to_i > 1 ? ENV["SIZE"].to_i : 5
 TIMEOUT = 500
 
 $state = SnakeState.generate_state(BOARD_SIZE)
-# raise $state.inspect
 
-window = Gtk::Window.new("First example")
+window = Gtk::Window.new("Snake in Ruby/GTK3")
 window.set_size_request(400, 400)
 window.set_border_width(10)
 
