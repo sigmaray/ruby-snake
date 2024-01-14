@@ -50,11 +50,12 @@ Launch the game from terminal.
 
 # Screenshots
 
-![image](https://github.com/sigmaray/ruby-snake/assets/1594701/812ba195-6c1d-4340-8ee0-16968282e75d)
+![image](https://github.com/sigmaray/ruby-snake/assets/1594701/724a2f32-b7a0-455b-a6a7-6d43cb4750bc)
 
-![image](https://github.com/sigmaray/ruby-snake/assets/1594701/1fe02217-c13f-4da3-a131-43bb65c190f3)
+![image](https://github.com/sigmaray/ruby-snake/assets/1594701/0448d683-d0ed-4e3c-b96a-351c7c96bba4)
 
-![image](https://github.com/sigmaray/ruby-snake/assets/1594701/80c73ce5-f56a-4d1e-acff-b29e5002ea1c)
+![image](https://github.com/sigmaray/ruby-snake/assets/1594701/8dfc5233-c6f1-426b-9653-27b2b81cd20e)
+
 
 
 
