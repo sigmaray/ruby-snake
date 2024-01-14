@@ -1,5 +1,9 @@
 # Snake game imeplemented in Ruby (Curses, GTK3, JRuby/Swing)
 
+# How to play the game
+* Use arrow keys to move the snake
+* Press "r" key to restart the game
+
 ## What was implemented
 * Library functions that manipulate state and handle ENV variables
 * 3 versions of UI: curses, gtk3, jruby/swing
