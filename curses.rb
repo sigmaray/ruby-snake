@@ -57,7 +57,7 @@ begin
 
     state = SnakeState.eat_and_gen_food(state)
 
-    state = SnakeState.state_is_game_over(state)
+    state = SnakeState.maybe_end_game(state)
 
     print_to_terminal(SnakeState.state_to_string(state))
   end
