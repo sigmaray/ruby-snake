@@ -10,7 +10,7 @@ module SnakeState
 
   # MATRIX_TYPE_HEAD = 'h'
   # MATRIX_TYPE_HEAD = '★'
-  MATRIX_TYPE_HEAD = "♥"  
+  MATRIX_TYPE_HEAD = "♥"
 
   # MATRIX_TYPE_FOOD = 'f'
   # MATRIX_TYPE_FOOD = '@'
@@ -19,8 +19,8 @@ module SnakeState
   # MATRIX_TYPE_EMPTY = '█'
   MATRIX_TYPE_EMPTY = "_"
 
-  def self.eat_and_gen_food(old_state)    
-    return old_state unless SnakeState.is_eating?(old_state)
+  def self.eat_and_gen_food(old_state)
+    return old_state unless SnakeState.eating?(old_state)
 
     state = deep_copy(old_state)
     state[:food] = SnakeState.generate_random_food_position(state)
@@ -101,8 +101,8 @@ module SnakeState
         state[:direction] = new_direction
       end
     end
-    
-    return state, correct_switch
+
+    [state, correct_switch]
   end
 
   def self.move_snake(old_state)
@@ -135,7 +135,7 @@ module SnakeState
       end
     end
     state[:segments].unshift(new_head)
-    state[:segments].pop unless is_eating?(state)
+    state[:segments].pop unless eating?(state)
     state
   end
 
@@ -152,7 +152,7 @@ module SnakeState
     Marshal.load(Marshal.dump(item))
   end
 
-  def self.is_eating?(state)
+  def self.eating?(state)
     return false if state[:food].nil?
 
     state[:food] == state[:segments][0]

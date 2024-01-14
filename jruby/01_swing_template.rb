@@ -1,6 +1,8 @@
-#01_swing_template.rb
+# frozen_string_literal: true
 
-require_relative 'java_imports'
+# 01_swing_template.rb
+
+require_relative "java_imports"
 require_relative "../state"
 
 USE_TIMER = %w[0 false off].include?(ENV["TIMER"]) ? false : true # rubocop:disable Style/IfWithBooleanLiteralBranches
@@ -13,14 +15,14 @@ java_import java.awt.event.KeyEvent
 
 # state_to_string($state)
 
+# JRuby/Swing UI for snake game
 class TopFrame < JFrame
   # include java.awt.event.KeyListener
 
-
   def initialize
     super
-    init_components()
-    pack()
+    init_components
+    pack
     set_visible(true)
     # keyPressed(nil)
 
@@ -28,18 +30,17 @@ class TopFrame < JFrame
 
     print_to_label SnakeState.state_to_string(@state)
   end
-  
-  def init_components()
+
+  def init_components
     # self.addKeyListener(self)
-    self.add_key_listener java.awt.event.KeyListener.impl { |name, event|
-      # raise '12345'      
+    add_key_listener(java.awt.event.KeyListener.impl do |name, event|
+      # raise '12345'
       keyPressed(event) if name == :keyPressed
-    }
+    end)
     set_default_close_operation(JFrame::EXIT_ON_CLOSE)
     set_preferred_size(Dimension.new(400, 300))
 
-    self.setLayout(FlowLayout.new);    
-
+    setLayout(FlowLayout.new)
 
     # @text_area = JTextArea.new(10, 20)
     # @text_area.editable = false
@@ -49,21 +50,21 @@ class TopFrame < JFrame
     # self.addKeyListener(self)
 
     @label = JLabel.new
-    @label.setFont(Font.new("Monospaced", Font::PLAIN, 24));
-    self.getContentPane().add(@label)
+    @label.setFont(Font.new("Monospaced", Font::PLAIN, 24))
+    getContentPane.add(@label)
   end
 
   # def keyName(code)
   #   name = KeyEvent.constants.select{|c| c.index('VK_') == 0}.find{|vk| code == KeyEvent.const_get(vk)}
   #   return name[3..name.size] if name
   # end
-  
+
   # def keyChar(char)
   #   if (char == 65535) then nil
   #   else char.chr.upcase
   #   end
   # end
-  
+
   # def keyRepr(event)
   #   name = keyName(event.getKeyCode)
   #   char = keyChar(event.getKeyChar)
@@ -71,34 +72,30 @@ class TopFrame < JFrame
   #   else name
   #   end
   # end
-  
 
-  def keyPressed(event)
+  def keyPressed(event) # rubocop:disable Naming/MethodName
     case event.keyCode
     when KeyEvent::VK_LEFT
-      @label.setText 'left'
+      @label.setText "left"
       @state, can_move = SnakeState.change_direction(@state, "left")
     when KeyEvent::VK_RIGHT
-      @label.setText 'right'
+      @label.setText "right"
       # state_snake_right($state)
       @state, can_move = SnakeState.change_direction(@state, "right")
     when KeyEvent::VK_UP
-      @label.setText 'up'
+      @label.setText "up"
       # state_snake_up($state)
       @state, can_move = SnakeState.change_direction(@state, "up")
     when KeyEvent::VK_DOWN
-      @label.setText 'down'
+      @label.setText "down"
       # state_snake_down($state)
       @state, can_move = SnakeState.change_direction(@state, "down")
     end
 
-    if event.getKeyChar() < 256
-      # @label.setText event.getKeyChar.to_s
-      if ["r", "R", "к", "К"].include?(event.getKeyChar().chr)
-        @label.setText event.getKeyChar().chr()
-        @state = SnakeState.generate_state(BOARD_SIZE)
-        can_move = false
-      end
+    if event.getKeyChar < 256 && %w[r R к К].include?(event.getKeyChar.chr)
+      @label.setText event.getKeyChar.chr
+      @state = SnakeState.generate_state(BOARD_SIZE)
+      can_move = false
     end
 
     @state = SnakeState.move_snake(@state) if can_move
@@ -110,21 +107,20 @@ class TopFrame < JFrame
     # @label.setText(SnakeState.state_to_string(@state))
     print_to_label SnakeState.state_to_string(@state)
 
-    # if is_eating?($state)
+    # if eating?($state)
     #   $state[:food] = generate_random_food_position($state)
     # end
     # # t += "\n\n"
-    # # t += 
+    # # t +=
     # # @label.setText t
     # pppp = state_to_string($state)
     # t = "<html><pre>#{pppp}</pre></html>"
-    # @label.setText t    
+    # @label.setText t
   end
 
   def print_to_label(str)
     @label.setText "<html><pre>#{str}</pre></html>"
   end
-  
 end
 
 SwingUtilities.invoke_later do

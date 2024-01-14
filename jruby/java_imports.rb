@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # java_imports.rb
 
 java_import javax.swing.JFrame
@@ -27,10 +29,10 @@ java_import javax.swing.tree.TreeSelectionModel
 java_import javax.swing.JFileChooser
 java_import javax.swing.JProgressBar
 java_import java.awt.event.ActionListener
-java_import  javax.swing.UIManager
+java_import javax.swing.UIManager
 JavaFile = java.io.File
 JavaThread = java.lang.Thread
 ###
 FlowLayout = java.awt.FlowLayout
 java_import javax.swing.JLabel
-java_import java.awt.Font;
+java_import java.awt.Font
