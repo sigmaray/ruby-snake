@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "gtk3"
-require "json"
+# require "json"
 
 require_relative "../state"
 
