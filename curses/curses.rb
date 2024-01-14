@@ -4,13 +4,12 @@
 
 require "curses"
 
-require_relative "../state"
+require_relative "../lib/options"
+require_relative "../lib/state"
 
-USE_TIMER = %w[0 false off].include?(ENV["TIMER"]) ? false : true # rubocop:disable Style/IfWithBooleanLiteralBranches
-BOARD_SIZE = ENV["SIZE"].to_i > 1 ? ENV["SIZE"].to_i : 5
-TIMEOUT = 500
+options = parse_env
 
-state = SnakeState.generate_state(BOARD_SIZE)
+state = SnakeState.generate_state(options[:size])
 
 Curses.init_screen
 
@@ -31,7 +30,7 @@ end
 
 print_to_terminal(SnakeState.state_to_string(state))
 
-Curses.timeout = TIMEOUT if USE_TIMER
+Curses.timeout = options[:timeout] if options[:use_timer]
 
 begin
   loop do

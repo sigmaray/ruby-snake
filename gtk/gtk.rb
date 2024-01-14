@@ -2,13 +2,12 @@
 
 require "gtk3"
 
-require_relative "../state"
+require_relative "../lib/options"
+require_relative "../lib/state"
 
-USE_TIMER = %w[0 false off].include?(ENV["TIMER"]) ? false : true # rubocop:disable Style/IfWithBooleanLiteralBranches
-BOARD_SIZE = ENV["SIZE"].to_i > 1 ? ENV["SIZE"].to_i : 5
-TIMEOUT = 500
+options = parse_env
 
-state = SnakeState.generate_state(BOARD_SIZE)
+state = SnakeState.generate_state(options[:size])
 
 window = Gtk::Window.new("Snake in Ruby/GTK3")
 window.set_size_request(400, 400)
@@ -23,8 +22,8 @@ def replace_text(text_view, str)
   text_view.buffer.text = str
 end
 
-if USE_TIMER
-  GLib::Timeout.add(TIMEOUT) do
+if options[:use_timer]
+  GLib::Timeout.add(options[:timeout]) do
     state = SnakeState.on_timer(state)
     replace_text text_view, SnakeState.state_to_string(state)
   end

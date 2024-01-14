@@ -30,12 +30,12 @@ module SnakeState
       state
     end
 
-    def generate_state(board_size)
+    def generate_state(size)
       state = {
-        board_size:,
+        size:,
         segments: [
           # {x: 1, y: 1},
-          generate_random_snake_position(board_size)
+          generate_random_snake_position(size)
         ],
         food: nil,
         direction: "right",
@@ -46,7 +46,7 @@ module SnakeState
     end
 
     def state_to_matrix(state)
-      matrix = generate_empty_matrix(state[:board_size])
+      matrix = generate_empty_matrix(state[:size])
       if state.key?(:food) && !state[:food].nil? # rubocop:disable Style/IfUnlessModifier
         matrix[state[:food][:y]][state[:food][:x]] = MATRIX_TYPE_FOOD
       end
@@ -116,10 +116,10 @@ module SnakeState
         if new_head[:y] > 0
           new_head[:y] -= 1
         else
-          new_head[:y] = state[:board_size] - 1
+          new_head[:y] = state[:size] - 1
         end
       when "down"
-        if new_head[:y] < state[:board_size] - 1
+        if new_head[:y] < state[:size] - 1
           new_head[:y] += 1
         else
           new_head[:y] = 0
@@ -128,10 +128,10 @@ module SnakeState
         if new_head[:x] > 0
           new_head[:x] -= 1
         else
-          new_head[:x] = state[:board_size] - 1
+          new_head[:x] = state[:size] - 1
         end
       when "right"
-        if new_head[:x] < state[:board_size] - 1
+        if new_head[:x] < state[:size] - 1
           new_head[:x] += 1
         else
           new_head[:x] = 0
@@ -163,7 +163,7 @@ module SnakeState
       when "right"
         state, can_move = change_direction(state, "right")
       when "r"
-        state = generate_state(BOARD_SIZE)
+        state = generate_state(state[:size])
         can_move = false
       end
 
@@ -176,7 +176,7 @@ module SnakeState
 
     def maybe_end_game(old_state)
       state = deep_copy(old_state)
-      res = state[:segments].length == state[:board_size] * state[:board_size]
+      res = state[:segments].length == state[:size] * state[:size]
       state[:is_over] = res
       state
     end
@@ -198,26 +198,26 @@ module SnakeState
       empty.sample
     end
 
-    def generate_random_snake_position(board_size)
-      { x: rand(0..(board_size - 1)), y: rand(0..(board_size - 1)) }
+    def generate_random_snake_position(size)
+      { x: rand(0..(size - 1)), y: rand(0..(size - 1)) }
     end
 
     def find_empty_segments(state)
       matrix = state_to_matrix(state)
       empty_segments = []
-      state[:board_size].times do |y|
-        state[:board_size].times do |x|
+      state[:size].times do |y|
+        state[:size].times do |x|
           empty_segments << ({ y:, x: }) if matrix[y][x] == MATRIX_TYPE_EMPTY
         end
       end
       empty_segments
     end
 
-    def generate_empty_matrix(board_size)
+    def generate_empty_matrix(size)
       matrix = []
-      board_size.times do |y|
+      size.times do |y|
         matrix[y] = []
-        board_size.times do |x|
+        size.times do |x|
           matrix[y][x] = MATRIX_TYPE_EMPTY
         end
       end

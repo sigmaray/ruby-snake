@@ -3,11 +3,10 @@
 java_import javax.swing.JFrame, javax.swing.SwingUtilities, java.awt.Dimension, java.awt.FlowLayout,
             javax.swing.JLabel, java.awt.Font, java.awt.event.KeyEvent, javax.swing.Timer
 
-require_relative "../state"
+require_relative "../lib/options"
+require_relative "../lib/state"
 
-USE_TIMER = %w[0 false off].include?(ENV["TIMER"]) ? false : true # rubocop:disable Style/IfWithBooleanLiteralBranches
-BOARD_SIZE = ENV["SIZE"].to_i > 1 ? ENV["SIZE"].to_i : 5
-TIMEOUT = 500
+options = parse_env
 
 # JRuby/Swing UI for snake game
 class TopFrame < JFrame
@@ -17,7 +16,7 @@ class TopFrame < JFrame
     pack
     set_visible(true)
 
-    @state = SnakeState.generate_state(BOARD_SIZE)
+    @state = SnakeState.generate_state(options[:size])
 
     print_to_label SnakeState.state_to_string(@state)
 
@@ -25,9 +24,9 @@ class TopFrame < JFrame
       keyPressed(event) if name == :keyPressed
     end)
 
-    return unless USE_TIMER
+    return unless options[:use_timer]
 
-    timer = Timer.new(TIMEOUT, nil)
+    timer = Timer.new(options[:timeout], nil)
     timer.add_action_listener do |_e|
       @state = SnakeState.on_timer(@state)
       print_to_label SnakeState.state_to_string(@state)
