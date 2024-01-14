@@ -25,16 +25,16 @@ class TopFrame < JFrame
       keyPressed(event) if name == :keyPressed
     end)
 
-    if USE_TIMER
-      timer = Timer.new(TIMEOUT, nil)
-      timer.add_action_listener do |e|      
-        @state = SnakeState.move_snake(@state)
-        @state = SnakeState.eat_and_gen_food(@state)
-        @state = SnakeState.maybe_end_game(@state)
-        print_to_label SnakeState.state_to_string(@state)
-      end
-      timer.start
+    return unless USE_TIMER
+
+    timer = Timer.new(TIMEOUT, nil)
+    timer.add_action_listener do |_e|
+      @state = SnakeState.move_snake(@state)
+      @state = SnakeState.eat_and_gen_food(@state)
+      @state = SnakeState.maybe_end_game(@state)
+      print_to_label SnakeState.state_to_string(@state)
     end
+    timer.start
   end
 
   def init_components
