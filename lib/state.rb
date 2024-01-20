@@ -6,7 +6,7 @@
 module SnakeState
   SEGMENT_TYPE_TAIL = "*"
 
-  SEGMENT_TYPE_HEAD = "♥"
+  SEGMENT_TYPE_HEAD = "o"
 
   SEGMENT_TYPE_FOOD = "@"
 
@@ -21,7 +21,7 @@ module SnakeState
       state
     end
 
-    def generate_state(size)
+    def generate_state(size, use_timer)
       state = {
         size:,
         segments: [
@@ -29,7 +29,8 @@ module SnakeState
         ],
         food: nil,
         direction: "right",
-        is_over: false
+        is_over: false,
+        use_timer:
       }
       state[:food] = generate_random_food_position(state)
       state
@@ -48,18 +49,31 @@ module SnakeState
     end
 
     def state_to_string(state)
-      return "You won.\nPress R to restart the game." if state[:is_over]
-
       matrix = state_to_matrix(state)
       return if matrix.empty?
 
       out = ""
-      matrix.each.with_index do |row, i|
+      out += "┌"
+      (matrix.size + 2).times do
+        out += "─"
+      end
+      out += "┐"
+      out += "\n"
+      matrix.each.with_index do |row, _i|
+        out += "│ "
         row.each do |segment|
           out += segment
         end
-        out += "\n" if i != (matrix.length - 1)
+        out += " │"
+        out += "\n" # if i != (matrix.length - 1)
       end
+      out += "└"
+      (matrix.size + 2).times do
+        out += "─"
+      end
+      out += "┘"
+
+      out += "\nYou won.\nPress R to restart the game." if state[:is_over]
 
       # Debug output
       # out += "\n#{state.inspect}\n\n"
@@ -68,6 +82,8 @@ module SnakeState
     end
 
     def change_direction(old_state, new_direction)
+      return [old_state, false] if old_state[:is_over]
+
       state = deep_copy(old_state)
       correct_switch = true
       case new_direction.to_s
@@ -135,17 +151,19 @@ module SnakeState
     end
 
     def on_timer(old_state)
+      return old_state if old_state[:is_over]
+
       state = deep_copy(old_state)
       state = SnakeState.move_snake(state)
       state = SnakeState.eat_and_gen_food(state)
-      state = SnakeState.maybe_end_game(state)
+      state = SnakeState.end_game_if_needed(state) # rubocop:disable Style/RedundantAssignment
       state
     end
 
-    def on_key_press(old_state, k)
+    def on_key_press(old_state, key)
       state = deep_copy(old_state)
 
-      case k.to_s
+      case key.to_s
       when "up"
         state, can_move = change_direction(state, "up")
       when "down"
@@ -155,21 +173,23 @@ module SnakeState
       when "right"
         state, can_move = change_direction(state, "right")
       when "r"
-        state = generate_state(state[:size])
+        state = generate_state(state[:size], state[:use_timer])
         can_move = false
       end
 
-      state = SnakeState.move_snake(state) if can_move
+      # Key press should move snake if direction is valid and timer is not used.
+      # If timer is used, we should only change direction without moving snake.
+      state = SnakeState.move_snake(state) if can_move && !state[:use_timer]
+
       state = SnakeState.eat_and_gen_food(state)
-      state = SnakeState.maybe_end_game(state)
+      state = SnakeState.end_game_if_needed(state) # rubocop:disable Style/RedundantAssignment
 
       state
     end
 
-    def maybe_end_game(old_state)
+    def end_game_if_needed(old_state)
       state = deep_copy(old_state)
-      res = state[:segments].length == state[:size] * state[:size]
-      state[:is_over] = res
+      state[:is_over] = find_empty_segments(state).empty?
       state
     end
 

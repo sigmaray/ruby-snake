@@ -7,7 +7,7 @@ require_relative "../lib/state"
 
 options = parse_env
 
-state = SnakeState.generate_state(options[:size])
+state = SnakeState.generate_state(options[:size], options[:use_timer])
 
 window = Gtk::Window.new("Snake in Ruby/GTK3")
 window.set_size_request(400, 400)
@@ -31,17 +31,16 @@ if options[:use_timer]
 end
 
 window.signal_connect("key-press-event") do |_widget, event|
-  k = Gdk::Keyval.to_name(event.keyval)
-  case k
-  when "Up"
+  case Gdk::Keyval.to_name(event.keyval)
+  when "Up", "w", "W"
     state = SnakeState.on_key_press(state, "up")
-  when "Down"
+  when "Down", "s", "S"
     state = SnakeState.on_key_press(state, "down")
-  when "Left"
+  when "Left", "a", "A"
     state = SnakeState.on_key_press(state, "left")
-  when "Right"
+  when "Right", "d", "D"
     state = SnakeState.on_key_press(state, "right")
-  when "r", "R", "к", "К"
+  when "r", "R"
     state = SnakeState.on_key_press(state, "r")
   end
 

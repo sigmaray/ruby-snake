@@ -21,10 +21,10 @@ Metrics/AbcSize:
   Max: 40
 
 Metrics/CyclomaticComplexity:
-  Max: 15
+  Max: 20
 
 Metrics/PerceivedComplexity:
-  Max: 15
+  Max: 20
 
 Style/NumericPredicate:
   Enabled: false

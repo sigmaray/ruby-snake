@@ -1,0 +1,34 @@
+font[size=12]
+  pre= SnakeState.state_to_string(@state)
+
+table[border=1 cellpadding=10]
+  tr
+    td 
+    td 
+      a[href='/?key=up']
+        button up
+    td 
+  tr
+    td 
+      a[href='/?key=left']
+        button left
+    td
+      a[href='/?key=r']
+        button r
+    td 
+      a[href='/?key=right']
+        button right
+  tr
+    td 
+    td 
+      a[href='/?key=down']
+        button down
+    td 
+
+- # Debug output
+- # textarea[rows=30 cols=100]= @state.to_json + "\n\n" + {segments_length: @state[:segments].length}.to_json
+
+p Press UI buttons or keyboard keys to move the snake (up, down, left, right). Press "r" key to restart the game.
+p In web version of the game timer is not implemented. Snake is moved only by pressing keyboard keys or UI buttons.
+
+script[src='/index.js']
