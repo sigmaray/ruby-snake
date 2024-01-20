@@ -13,7 +13,7 @@
 * ENV options:
     - SIZE [>1] (defaults to 5) - width and height of game board  (example: `SIZE=2 ruby curses.rb`)
     - TIMER [0/false/off or true/on] (defaults to true) - automatically move snake by timer (example: `TIMER=off ruby curses.rb`)
-    - TIMEOUT [>1] (defaults to 500) - time interval for times (used only if TIMER options is true) (example: `TIMER=on TIMEOUT=100 ruby curses.rb`)
+    - TIMEOUT [>1] (defaults to 300) - time interval for times (used only if TIMER options is true) (example: `TIMER=on TIMEOUT=100 ruby curses.rb`)
     
 
 ## Things that were intentially not implemented due to lack of time (but it's not hard to implement them)
