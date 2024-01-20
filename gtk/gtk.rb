@@ -7,7 +7,7 @@ require_relative "../lib/state"
 
 options = parse_env
 
-state = SnakeState.generate_state(options[:size])
+state = SnakeState.generate_state(options[:size], options[:use_timer])
 
 window = Gtk::Window.new("Snake in Ruby/GTK3")
 window.set_size_request(400, 400)

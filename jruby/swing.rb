@@ -16,7 +16,7 @@ class TopFrame < JFrame
 
     @options = parse_env
 
-    @state = SnakeState.generate_state(@options[:size])
+    @state = SnakeState.generate_state(@options[:size], @options[:use_timer])
 
     print_to_label SnakeState.state_to_string(@state)
 
@@ -46,18 +46,22 @@ class TopFrame < JFrame
   end
 
   def keyPressed(event) # rubocop:disable Naming/MethodName
-    case event.keyCode
-    when KeyEvent::VK_LEFT
-      @state = SnakeState.on_key_press(@state, "left")
-    when KeyEvent::VK_RIGHT
-      @state = SnakeState.on_key_press(@state, "right")
-    when KeyEvent::VK_UP
-      @state = SnakeState.on_key_press(@state, "up")
-    when KeyEvent::VK_DOWN
-      @state = SnakeState.on_key_press(@state, "down")
+    k = if event.getKeyChar < 256
+      event.getKeyChar.chr
+    else
+      event.keyCode
     end
-
-    if event.getKeyChar < 256 && %w[r R к К].include?(event.getKeyChar.chr)
+    
+    case k
+    when KeyEvent::VK_UP, "w", "W", "ц", "Ц"
+      @state = SnakeState.on_key_press(@state, "up")
+    when KeyEvent::VK_DOWN, "s", "S", "Ы", "Ы"
+      @state = SnakeState.on_key_press(@state, "down")
+    when KeyEvent::VK_LEFT, "a", "A", "ф", "Ф"
+      @state = SnakeState.on_key_press(@state, "left")
+    when KeyEvent::VK_RIGHT, "d", "D", "в", "В"
+      @state = SnakeState.on_key_press(@state, "right")
+    when "r", "R", "к", "К"
       @state = SnakeState.on_key_press(@state, "r")
     end
 

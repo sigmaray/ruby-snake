@@ -21,7 +21,7 @@ module SnakeState
       state
     end
 
-    def generate_state(size)
+    def generate_state(size, use_timer)
       state = {
         size:,
         segments: [
@@ -29,7 +29,8 @@ module SnakeState
         ],
         food: nil,
         direction: "right",
-        is_over: false
+        is_over: false,
+        use_timer:
       }
       state[:food] = generate_random_food_position(state)
       state
@@ -155,11 +156,15 @@ module SnakeState
       when "right"
         state, can_move = change_direction(state, "right")
       when "r"
-        state = generate_state(state[:size])
+        state = generate_state(state[:size], state[:use_timer])
         can_move = false
       end
 
-      state = SnakeState.move_snake(state) if can_move
+      # Key press should move snake only if direction is valid and timer is not used.
+      # If timer is used, we should only change direction without moving snake (it should
+      # be move only by timer).
+      state = SnakeState.move_snake(state) if can_move && !state[:use_timer]
+
       state = SnakeState.eat_and_gen_food(state)
       state = SnakeState.maybe_end_game(state)
 
