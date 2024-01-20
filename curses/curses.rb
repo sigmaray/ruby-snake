@@ -35,15 +35,15 @@ begin
     k = Curses.get_char
 
     case k
-    when Curses::KEY_LEFT
-      state = SnakeState.on_key_press(state, "left")
-    when Curses::KEY_RIGHT
-      state = SnakeState.on_key_press(state, "right")
-    when Curses::KEY_UP
+    when Curses::KEY_UP, "w", "W"
       state = SnakeState.on_key_press(state, "up")
-    when Curses::KEY_DOWN
+    when Curses::KEY_DOWN, "s", "S"
       state = SnakeState.on_key_press(state, "down")
-    when "r", "R", "к", "К"
+    when Curses::KEY_LEFT, "a", "A"
+      state = SnakeState.on_key_press(state, "left")
+    when Curses::KEY_RIGHT, "d", "D"
+      state = SnakeState.on_key_press(state, "right")
+    when "r", "R"
       state = SnakeState.on_key_press(state, "r")
     when nil
       state = SnakeState.on_timer(state)

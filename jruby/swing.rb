@@ -53,15 +53,15 @@ class TopFrame < JFrame
     end
     
     case k
-    when KeyEvent::VK_UP, "w", "W", "ц", "Ц"
+    when KeyEvent::VK_UP, "w", "W"
       @state = SnakeState.on_key_press(@state, "up")
-    when KeyEvent::VK_DOWN, "s", "S", "Ы", "Ы"
+    when KeyEvent::VK_DOWN, "s", "S"
       @state = SnakeState.on_key_press(@state, "down")
-    when KeyEvent::VK_LEFT, "a", "A", "ф", "Ф"
+    when KeyEvent::VK_LEFT, "a", "A"
       @state = SnakeState.on_key_press(@state, "left")
-    when KeyEvent::VK_RIGHT, "d", "D", "в", "В"
+    when KeyEvent::VK_RIGHT, "d", "D"
       @state = SnakeState.on_key_press(@state, "right")
-    when "r", "R", "к", "К"
+    when "r", "R"
       @state = SnakeState.on_key_press(@state, "r")
     end
 
